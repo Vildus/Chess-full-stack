@@ -15,6 +15,9 @@ const Active = require("./models/active")
 const moveGen = require('./moveGen')
 const chess = require('./chessServer')
 
+const loginController = require('./controllers/LoginController')
+const registerController = require('./controllers/RegisterController')
+
 app.use(cors({origin:true,credentials: true}))
 app.use(bodyParser.json())
 app.use(express.static("client/dist"))
@@ -54,69 +57,8 @@ async function getSocketByName(name) {
 }
 
 //Routes
-app.post('/register', async (req, res) => {
-    const post = req.body
-    if (!(post.name || post.password || post.passwordChec)) {
-        res.send({
-            message: "Invalid"
-        })
-        return
-    }
-    if (post.password != post.passwordChec) {
-        res.send({
-            message: "Passwords don't match"
-        })
-        return
-    }
-    if (post.name.length < 5) {
-        res.send({
-            message: "Username too short"
-        })
-        return
-    }
-    const user = new User({
-        name: post.name,
-        password: post.password,
-        elo: 1000,
-        token: crypto.randomBytes(64).toString('hex')
-    })
-    try {
-        await user.save()
-        console.log("Registered user " + post.name)
-        res.send({
-            message: 'Registered'
-        })
-    } catch (err) {
-        if (err.message.includes("duplicate")) {
-            res.send({
-                message: 'User exists'
-            })
-            return
-        }
-        res.send({
-            message: 'Error with database'
-        })
-        console.log(err.message)
-    }
-})
-
-app.post('/login', async (req, res) => {
-    if (req.body.token) {
-        const user = await User.findOne({token: req.body.token})
-        if (user) {
-            res.send({login: true, token: user.token, name: user.name})
-        } else {
-            res.send({login: false})
-        }
-        return
-    }
-    const user = await User.findOne({$and: [{name: req.body.name},{password: req.body.password}]})
-    if (user) {
-        res.send({login: true, token: user.token, name: user.name}) 
-    } else {
-        res.send({login: false}) 
-    }  
-})
+app.use('/register', registerController)
+app.post('/login', loginController)
 
 //Socket.io
 io.on("connection", socket => {
