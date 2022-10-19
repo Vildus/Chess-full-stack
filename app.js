@@ -13,13 +13,13 @@ const Game = require('./models/game')
 const Active = require("./models/active")
 
 const moveGen = require('./moveGen')
-const chess = require('./chessClient')
+const chess = require('./chessServer')
 
 app.use(cors({origin:true,credentials: true}))
 app.use(bodyParser.json())
 app.use(express.static("client/dist"))
 
-mongoose.connect('mongodb://localhost:27017/chess')
+mongoose.connect('mongodb://localhost:27017/chess?retryWrites=true&w=majority')
 const db = mongoose.connection
 db.on('error', (e) => {console.error(e)})
 db.once('open', () => {console.log("Connected to MongoDB")})

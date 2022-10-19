@@ -1,4 +1,4 @@
-const chess = require("./chessClient")
+const chess = require("./chessServer")
 
 function moveGen(state) {
     let toMove = state.toMove
