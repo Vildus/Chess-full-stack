@@ -10,6 +10,8 @@ const loginController = require('./controllers/LoginController')
 const registerController = require('./controllers/RegisterController')
 const socketController = require("./controllers/SocketContoller")
 
+require('dotenv').config()
+
 app.use(cors({origin:true,credentials: true}))
 app.use(bodyParser.json())
 app.use(express.static("client/dist"))
@@ -25,7 +27,6 @@ app.post('/login', loginController)
 
 //Socket.io
 io.on("connection", socketController)
-
 httpServer.listen(3000, () => {
     console.log("Server started on port 3000")
 })

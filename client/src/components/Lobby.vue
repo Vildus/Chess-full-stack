@@ -31,7 +31,7 @@ export default {
   components: {
     Popup
   },
-  props: ['username', 'isLogged', 'token'],
+  props: ['username', 'isLogged', 'Atoken'],
   data () {
     return {
       isPrompted: false,
@@ -42,7 +42,7 @@ export default {
     }
   },
   beforeMount () {
-    if (localStorage.getItem('token') === null) {
+    if (localStorage.getItem('Atoken') === null) {
       this.$router.push({path: '/'})
     }
     this.fetchGames()

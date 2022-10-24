@@ -12,7 +12,7 @@
     </nav>
     <router-view
     @login="login"
-    :token="token"
+    :Atoken="Atoken"
     :username='username'
     :isLogged='loggedIn'/>
   </div>
@@ -25,38 +25,41 @@ export default {
   data () {
     return {
       loggedIn: false,
-      token: '',
+      Atoken: '',
+      Rtoken: '',
       username: ''
     }
   },
   methods: {
     login (data) {
-      this.token = data.token
+      this.Atoken = data.Atoken
       this.username = data.name
       this.loggedIn = true
-      localStorage.setItem('token', this.token)
-      this.$socket.emit('login', this.token)
+      localStorage.setItem('Atoken', this.Atoken)
+      localStorage.setItem('Rtoken', this.Rtoken)
+      this.$socket.emit('login', this.Atoken)
     },
     logout () {
       this.token = ''
       this.username = ''
       this.loggedIn = false
-      localStorage.removeItem('token')
+      localStorage.removeItem('Atoken')
+      localStorage.removeItem('Rtoken')
       this.$router.push({path: '/'})
     }
   },
   created () {
     this.$socket.on('connect', () => {
       console.log('Connected socket: ' + this.$socket.id)
-      if (this.token) {
-        this.$socket.emit('login', this.token)
+      if (this.Atoken) {
+        this.$socket.emit('login', this.Atoken)
       }
     })
   },
   async beforeMount () {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('Atoken')) {
       const res = await axios.post('/login', {
-        token: localStorage.getItem('token')
+        Atoken: localStorage.getItem('Atoken')
       })
       if (res.data.login) {
         this.login(res.data)

@@ -55,7 +55,7 @@ export default {
     }
   },
   beforeMount () {
-    if (localStorage.getItem('token') === null) {
+    if (localStorage.getItem('Atoken') === null) {
       this.$router.push({path: '/'})
     }
     this.$socket.emit('joinRoom', this.id)

@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+
 const User = require('../models/user')
 const Game = require('../models/game')
 const Active = require("../models/active")
@@ -50,16 +52,17 @@ function controller(socket) {
             updateActive(socket._room)
         }
     })
-    socket.on("login", async (token) => {
-        const user = await User.findOne({token: token})
-        if (user) {
-            socket._name = user.name
-            socket._token = user.token
-            socket._id = user.id
-            console.log("Socket logged: " + user.name) 
-        } else {
-            console.warn("Failed socket login with token: " + token)
-        }
+    socket.on("login", (token) => {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
+            if (err) return
+            const user = await User.findById(payload.id)
+            if (user) {
+                socket._name = user.name
+                socket._token = user.token
+                socket._id = user.id
+                console.log("Socket logged: " + user.name) 
+            }
+        })
     })
     socket.on("createGame", async (time, inc, cb) => {
         const game = new Game({

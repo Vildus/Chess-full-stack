@@ -26,8 +26,7 @@ router.post('/register', async (req, res) => {
     const user = new User({
         name: post.name,
         password: post.password,
-        elo: 1000,
-        token: crypto.randomBytes(64).toString('hex')
+        elo: 1000
     })
     try {
         await user.save()
