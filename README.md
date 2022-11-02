@@ -1,7 +1,6 @@
 # SPŠ Chess
 
 ### Todo:
-* Implement JWT instead of Shit tokens
+* Implement JWT refresh tokens
 * IP bans
-* FIX: game reconnect does not clear oponent left state
-* FIX: game disconnect disables game
+* FIX: game disconnect sometimes disables game
