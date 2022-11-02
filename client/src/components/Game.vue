@@ -95,6 +95,7 @@ export default {
       }
       let x = Math.floor((e.clientX - this.$refs.canv.getBoundingClientRect().left) / 50)
       let y = Math.floor((e.clientY - this.$refs.canv.getBoundingClientRect().top) / 50)
+      this.$refs.prom.style.left = x * 50 + this.$refs.canv.getBoundingClientRect().left + 50 + 'px'
       if (this.flipped) {
         x = 7 - x
         y = 7 - y
@@ -138,9 +139,8 @@ export default {
         let piceArray = ['Q', 'B', 'N', 'R']
         this.isProm = true
         this.$refs.prom.addEventListener('click', (e) => {
-          let y = Math.floor((e.clientY - this.$refs.canv.getBoundingClientRect().top) / 50)
+          let y = Math.floor((e.clientY - this.$refs.prom.getBoundingClientRect().top) / 50)
           this.isProm = false
-          alert(y)
           resolve(piceArray[y])
         })
       })
@@ -228,6 +228,7 @@ button:hover {
 canvas {
   background: transparent;
   border: 4px solid white;
+  position: relative;
 }
 
 p {
