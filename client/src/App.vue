@@ -45,6 +45,7 @@ export default {
       this.loggedIn = false
       localStorage.removeItem('Atoken')
       localStorage.removeItem('Rtoken')
+      this.$socket.emit('logout')
       this.$router.push({path: '/'})
     }
   },

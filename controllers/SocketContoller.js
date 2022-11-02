@@ -65,6 +65,12 @@ function controller(socket) {
             }
         })
     })
+    socket.on("logout", () => {
+        console.log("Socket unlogged: " + socket._name)
+        socket._name = null
+        socket._token = null
+        socket._id = null
+    })
     socket.on("createGame", async (time, inc, cb) => {
         const game = new Game({
             name: socket._name,
