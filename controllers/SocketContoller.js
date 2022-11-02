@@ -58,9 +58,10 @@ function controller(socket) {
             const user = await User.findById(payload.id)
             if (user) {
                 socket._name = user.name
-                socket._token = user.token
+                socket._token = token
                 socket._id = user.id
-                console.log("Socket logged: " + user.name) 
+                console.log("Socket logged: " + user.name)
+                socket.emit("logged", user.name) 
             }
         })
     })
@@ -82,7 +83,7 @@ function controller(socket) {
     })
     socket.on("cancelGame", async () => {
         if (!socket._token) {
-            res.send("Ur a hacker nigga")
+            // TODO: IP Ban
             return
         }
         await Game.deleteOne({name: socket._name})
@@ -94,6 +95,10 @@ function controller(socket) {
     }),
     socket.on("joinRoom", async (id) => {
         let active
+        if (!socket._name) {
+            console.log("Unloged user attempted to join room " + id)
+            return
+        }
         try {
             active = await Active.findById(id)
         } catch {
@@ -105,6 +110,7 @@ function controller(socket) {
         }
         socket.join(id)
         socket._room = id
+        console.log("Socket " + socket._name + " joined room " + socket._room)
         if (active.left) {
             if ((active.left == "W" && socket._name == active.white.name)
             ||  (active.left == "B" && socket._name == active.black.name)) {
@@ -159,6 +165,7 @@ function controller(socket) {
             // TODO: IP ban :)
             return
         }
+        console.log(socket._name + " claimed win on game; left=" + active.left)
         active.ended = true
         const state = JSON.parse(active.state)
         state.winner = socket._name

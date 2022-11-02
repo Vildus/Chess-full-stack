@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div v-show="isLoaded">
       <h4>{{state.whiteName}} vs {{state.blackName}}</h4>
       <canvas ref="canv" @click="canvClick" width="400" height="400"></canvas>
@@ -15,6 +16,10 @@
         <button @click="claimClick">Claim win</button>
       </Popup>
     </div>
+    <div v-show="!isLoaded">
+      <h1>Loading ...</h1>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -58,7 +63,6 @@ export default {
     if (localStorage.getItem('Atoken') === null) {
       this.$router.push({path: '/'})
     }
-    this.$socket.emit('joinRoom', this.id)
   },
   mounted () {
     this.ctx = this.$refs.canv.getContext('2d')
@@ -73,14 +77,16 @@ export default {
       }
       this.updateGame()
     }
-    this.$socket.on('connect', () => {
-      this.$emit('joinRoom', this.id)
-    })
     this.$socket.on('stateUpdate', (state) => {
+      console.log('state updated!')
       this.state = state
       this.isLoaded = true
       this.updateGame()
     })
+    let logger = setInterval(() => {
+      this.$socket.emit('joinRoom', this.id)
+      if (this.isLoaded) clearInterval(logger)
+    }, 20)
   },
   methods: {
     async canvClick (e) {
