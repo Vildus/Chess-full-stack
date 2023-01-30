@@ -35,21 +35,26 @@ async function getSocketByName(name) {
     }
 }
 
+async function writePlayerLeft(socket, id) {
+    const active = await Active.findById(id)
+    if (active.ended) return
+    if (active.white.name == socket._name) {
+        active.left = "W"
+    } else if (active.black.name == socket._name) {
+        active.left = "B"
+    } else {
+        return
+    }
+    await active.save()
+    updateActive(socket._room)
+}
+
 function controller(socket) {
     console.log("Socket connected: " + socket.id)
     socket.on("disconnect", async (reason) => {
         console.log("Socket disconnected: " + socket.id)
         if (socket._room) {
-            const active = await Active.findById(socket._room)
-            if (active.white.name == socket._name) {
-                active.left = "W"
-            } else if (active.black.name == socket._name) {
-                active.left = "B"
-            } else {
-                return
-            }
-            await active.save()
-            updateActive(socket._room)
+            await writePlayerLeft(socket, socket._room)
         }
     })
     socket.on("login", (token) => {
@@ -126,6 +131,11 @@ function controller(socket) {
         }
         updateActive(id)
     })
+    socket.on("leaveRoom", (room) => {
+        socket.leave(room)
+        console.log("Socket " + socket._name + " left room " + room)
+        writePlayerLeft(socket, room)
+    })
     socket.on("move", async (id, move) => {
         const active = await Active.findById(id)
         if (!active) {
@@ -167,7 +177,7 @@ function controller(socket) {
             return
         }
         const active = await Active.findById(socket._room)
-        if (!active.left) {
+        if (!active.left || active.ended) {
             // TODO: IP ban :)
             return
         }

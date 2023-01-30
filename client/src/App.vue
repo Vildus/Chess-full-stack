@@ -49,6 +49,13 @@ export default {
       this.$router.push({path: '/'})
     }
   },
+  watch: {
+    $route (to, from) {
+      if (from.name === 'Game') {
+        this.$socket.emit('leaveRoom', from.params.id)
+      }
+    }
+  },
   created () {
     this.$socket.on('connect', () => {
       console.log('Connected socket: ' + this.$socket.id)
