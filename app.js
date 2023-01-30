@@ -6,6 +6,8 @@ const bodyParser = require("body-parser")
 const cors = require('cors')
 global.io = require('socket.io')(httpServer, {cors : {origin: "*"}})
 
+const PORT = 3000
+
 const loginController = require('./controllers/LoginController')
 const registerController = require('./controllers/RegisterController')
 const socketController = require("./controllers/SocketContoller")
@@ -27,6 +29,6 @@ app.post('/login', loginController)
 
 //Socket.io
 io.on("connection", socketController)
-httpServer.listen(3000, () => {
-    console.log("Server started on port 3000")
+httpServer.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`)
 })
