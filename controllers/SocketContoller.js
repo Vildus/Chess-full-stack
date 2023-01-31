@@ -9,6 +9,7 @@ const chess = require('../chessServer')
 
 async function updateActive(id) {
     const active = await Active.findById(id)
+    if (!active) return
     const white = active.white.name
     const black = active.black.name
     io.to(id).emit('stateUpdate', {
