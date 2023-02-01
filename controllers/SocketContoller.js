@@ -62,13 +62,12 @@ function controller(socket) {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
             if (err) return
             const user = await User.findById(payload.id)
-            if (user) {
-                socket._name = user.name
-                socket._token = token
-                socket._id = user.id
-                console.log("Socket logged: " + user.name)
-                socket.emit("logged", user.name) 
-            }
+            if (!user) return
+            socket._name = user.name
+            socket._token = token
+            socket._id = user.id
+            console.log("Socket logged: " + user.name)
+            socket.emit("logged", user.name) 
         })
     })
     socket.on("logout", () => {
