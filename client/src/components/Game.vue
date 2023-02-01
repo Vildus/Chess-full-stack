@@ -86,7 +86,7 @@ export default {
     let logger = setInterval(() => {
       this.$socket.emit('joinRoom', this.id)
       if (this.isLoaded) clearInterval(logger)
-    }, 20)
+    }, 100)
   },
   methods: {
     async canvClick (e) {
