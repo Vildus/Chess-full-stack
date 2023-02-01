@@ -37,7 +37,13 @@ async function getSocketByName(name) {
 }
 
 async function writePlayerLeft(socket, id) {
-    const active = await Active.findById(id)
+    let active = null
+    try {
+        active = await Active.findById(id)
+    } catch {
+        return
+    }
+    if (!active) return
     if (active.ended) return
     if (active.white.name == socket._name) {
         active.left = "W"
@@ -117,6 +123,7 @@ function controller(socket) {
         }
         if (!active) {
             console.log(socket._name + " tried to join unexistent active")
+            socket.emit("gameNotFound")
             return
         }
         socket.join(id)

@@ -16,7 +16,10 @@
         <button @click="claimClick">Claim win</button>
       </Popup>
     </div>
-    <div v-show="!isLoaded">
+    <div v-if="notFound">
+      <h1>Game does not exist</h1>
+    </div>
+    <div v-else-if="!isLoaded">
       <h1>Loading ...</h1>
     </div>
   </div>
@@ -56,7 +59,8 @@ export default {
       ctx: null,
       ctxProm: null,
       spriteSheet: null,
-      isPopup: false
+      isPopup: false,
+      notFound: false
     }
   },
   beforeMount () {
@@ -83,9 +87,12 @@ export default {
       this.isLoaded = true
       this.updateGame()
     })
+    this.$socket.on('gameNotFound', () => {
+      this.notFound = true
+    })
     let logger = setInterval(() => {
       this.$socket.emit('joinRoom', this.id)
-      if (this.isLoaded) clearInterval(logger)
+      if (this.isLoaded || this.notFound) clearInterval(logger)
     }, 100)
   },
   methods: {

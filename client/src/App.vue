@@ -12,6 +12,7 @@
     </nav>
     <router-view
     @login="login"
+    :key="$route.fullPath"
     :Atoken="Atoken"
     :username='username'
     :isLogged='loggedIn'/>
