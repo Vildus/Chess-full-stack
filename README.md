@@ -6,3 +6,10 @@
 * Add timer (difficult)
 * Add profile page
 * Add change password page
+* Migrate to Vite (Maybe)
+* Add state management for auth and maybe socket.io
+* Backend code
+* Add admin dashboard
+* Add profile page
+* Implement elo system
+* Complete UI redesign
