@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import * as moveGen from '../moveGen.js'
-import * as chess from '../chessClient.js'
+import * as moveGen from '@/moveGen.js'
+import * as chess from '@/chessClient.js'
 import spritesheetURL from '@/assets/chessSpriteSheet.png'
 import Popup from './Popup.vue'
 

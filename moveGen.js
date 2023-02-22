@@ -160,7 +160,7 @@ function kingCycle(x,y,state,toMove, attack, attackMap, canCastle) {
         }
     }
     let shortX = [5,6]
-    let longX = [2,3]
+    let longX = [2,3,4]
     if (!attack && canCastle && !checkCheck(board, toMove, attackMap)) {
         let canShort = state.toMove == "W" ? state.whiteShort : state.blackShort
         let canLong = state.toMove == "W" ? state.whiteLong : state.blackLong
