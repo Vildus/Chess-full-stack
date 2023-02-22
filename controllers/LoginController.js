@@ -4,7 +4,7 @@ const router = express.Router()
 
 const User = require('../models/user')
 
-router.post('/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
     let user
     if (req.body.Atoken) {
         jwt.verify(req.body.Atoken, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {

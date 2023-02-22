@@ -3,7 +3,7 @@ const router = express.Router()
 
 const User = require('../models/user')
 
-router.post('/register', async (req, res) => {
+router.post('/api/register', async (req, res) => {
     const post = req.body
     if (!(post.name || post.password || post.passwordChec)) {
         res.send({

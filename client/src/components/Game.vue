@@ -26,8 +26,9 @@
 </template>
 
 <script>
-import * as moveGen from '../moveGen'
-import * as chess from '../chessClient'
+import * as moveGen from '../moveGen.js'
+import * as chess from '../chessClient.js'
+import spritesheetURL from '@/assets/chessSpriteSheet.png'
 import Popup from './Popup.vue'
 
 export default {
@@ -71,9 +72,8 @@ export default {
   mounted () {
     this.ctx = this.$refs.canv.getContext('2d')
     this.ctxProm = this.$refs.prom.getContext('2d')
-
     this.spriteSheet = new Image()
-    this.spriteSheet.src = require('../assets/chessSpriteSheet.png')
+    this.spriteSheet.src = spritesheetURL
     this.spriteSheet.onload = () => {
       this.ctxProm.fillRect(0, 0, 50, 200)
       for (let i = 0; i < 4; i++) {
@@ -90,6 +90,7 @@ export default {
     this.$socket.on('gameNotFound', () => {
       this.notFound = true
     })
+    console.log("Mounted")
     let logger = setInterval(() => {
       this.$socket.emit('joinRoom', this.id)
       if (this.isLoaded || this.notFound) clearInterval(logger)

@@ -67,7 +67,7 @@ export default {
   },
   async beforeMount () {
     if (localStorage.getItem('Atoken')) {
-      const res = await axios.post('/login', {
+      const res = await axios.post('/api/login', {
         Atoken: localStorage.getItem('Atoken')
       })
       if (res.data.login) {

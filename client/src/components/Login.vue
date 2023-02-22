@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     async login () {
-      const res = await axios.post('/login', {
+      const res = await axios.post('/api/login', {
         name: this.name,
         password: this.password
       })

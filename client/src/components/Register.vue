@@ -30,7 +30,7 @@ export default {
       if (!this.active) {
         return
       }
-      const res = await axios.post('/register', {
+      const res = await axios.post('/api/register', {
         name: this.name,
         password: this.password,
         passwordChec: this.passwordCheck
