@@ -54,7 +54,10 @@ function controller(socket) {
     })
     socket.on("login", (token) => {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
-            if (err) return
+            if (err) {
+                console.log(`Wrong login by :${socket._id} ${err}`)
+                return
+            }
             const user = await User.findById(payload.id)
             if (user) {
                 socket._name = user.name

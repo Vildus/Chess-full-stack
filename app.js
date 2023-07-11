@@ -16,13 +16,15 @@ app.use(cors({origin:true,credentials: true}))
 app.use(bodyParser.json())
 app.use(express.static("client/dist"))
 
-mongoose.connect('mongodb://localhost:27017/chess?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URI, {
+    dbName: process.env.DB_NAME
+})
 const db = mongoose.connection
 db.on('error', (e) => {console.error(e)})
 db.once('open', () => {console.log("Connected to MongoDB")})
 
 //Routes
-app.use('/register', registerController)
+app.post('/register', registerController)
 app.post('/login', loginController)
 
 //Socket.io
