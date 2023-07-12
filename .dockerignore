@@ -1,3 +1,6 @@
 node_modules
+Dockerfile
+.dockerignore
+docker-compose.yml
 client/node_modules
 npm-debug.log

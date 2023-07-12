@@ -3,25 +3,20 @@ services:
   node:
     restart: always
     depends_on:
-      - mongo
+      - mongodb
     build: .
     ports:
       - 80:3000
     environment:
-      - DB_HOST=mongodb
-      - DB_USER=$MONGODB_USER
-      - DB_PASSWORD=$MONGODB_PASSWORD
-      - DB_NAME=$MONGODB_DATABASE
-      - DB_PORT=$MONGODB_DOCKER_PORT
+      PORT: 3000
+      MONGODB_URI: mongodb://mongodb:27017
+      DB_NAME: chess
+      ACCESS_TOKEN_SECRET: "negr"
     volumes:
       - ./:/code
-  mongo:
+  mongodb:
     image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=amongus123
-    ports:
-      - 27017:27017
+    restart: always
     volumes:
       - mongodb:/data/db
 volumes:
