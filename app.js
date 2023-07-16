@@ -30,5 +30,5 @@ app.post('/api/login', loginController)
 //Socket.io
 io.on("connection", socketController)
 httpServer.listen(process.env.PORT, () => {
-    console.log(`Server started on port ${PORT}`)
+    console.log(`Server started on port ${process.env.PORT}`)
 })
