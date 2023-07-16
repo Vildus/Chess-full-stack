@@ -18,14 +18,17 @@ Run the server as well as `npm run dev` in the client folder for the Vue.js deve
 
 ## Todo:
 * Add proper validation to endpoints (important !)
-* Better storage of JWT and websocket authentication
+* Separate WS for lobby and game (big one)
+* Rework WS handeling on the BE
+* Use something like Redis for active game state
+* Better storage of JWT and WS authentication
 * Implement JWT refresh tokens
 * Add password hashing
 * Add timer to the chess game
 * Add game history
 * Add profile page
 * Add "change password" page
-* Add Pinia for auth and sockets and move to Composition API
+* Add Pinia for auth and WS and move to Composition API
 * BE code refactoring
 * Add admin dashboard
 * Implement elo system
