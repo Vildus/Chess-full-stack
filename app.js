@@ -26,7 +26,7 @@ db.on('error', (e) => {console.error(e)})
 db.once('open', () => {console.log("Connected to MongoDB")})
 
 //Routes
-app.use('/api/register', registerController)
+app.post('/api/register', registerController)
 app.post('/api/login', loginController)
 
 //Socket.io

@@ -8,7 +8,10 @@ router.post('/api/login', async (req, res) => {
     let user
     if (req.body.Atoken) {
         jwt.verify(req.body.Atoken, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
-            if (err) res.send({login: false})
+            if (err) {
+                res.send({login: false})
+                return
+            }
             user = await User.findById(payload.id)
             res.send({login: true, Atoken: req.body.Atoken, name: user.name})
         })
