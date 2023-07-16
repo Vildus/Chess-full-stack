@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 import io from 'socket.io-client'
 
-const socket = io(':3000')
+const socket = io()
 
 const app = createApp(App)
 

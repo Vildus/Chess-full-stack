@@ -11,7 +11,7 @@ services:
       PORT: 3000
       MONGODB_URI: mongodb://mongodb:27017
       DB_NAME: chess
-      ACCESS_TOKEN_SECRET: "negr"
+      ACCESS_TOKEN_SECRET: "labradort"
     volumes:
       - ./:/code
   mongodb:
