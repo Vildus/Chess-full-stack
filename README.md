@@ -4,17 +4,9 @@ SPŠ Chess is my personal project of a online multiplayer chess game.
 The app uses node/express.js as the BE, Vue as the FE, MongoDB as the DB, and Socket.io for WS communication. 
 The app is a WIP proof of concept MVP. It doesn't hash passwords yet, stores JWT in localStorage and does not use refresh tokens *... yet*.
 
-## Docker
+## How to run (Docker)
 
 Just copy the files and run: `docker compose up --build`
-
-## Dev server
-
-Run `npm run build` in the client folder and then run `npm run dev` in the root folder
-
-## Frontend dev
-
-Run the server as well as `npm run dev` in the client folder for the Vue.js developement server
 
 ## Todo:
 * Add proper validation to endpoints (important !)
